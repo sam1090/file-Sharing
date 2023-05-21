@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "vite": "^4.3.8"
+  },
+  "name": "filesharing",
+  "version": "1.0.0",
+  "description": "project for sharing files",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "vite"
+  },
+  "author": "Saumya Gupta",
+  "license": "ISC"
+}
