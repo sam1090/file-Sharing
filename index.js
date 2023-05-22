@@ -1,8 +1,9 @@
 const dropZone = document.querySelector(".drop-zone");
+const browseBtn = document.querySelector("#browseBtn")
+const fileInput = document.querySelector("#fileInput")
 
 dropZone.addEventListener("dragover", (e) => {
   e.preventDefault();
-  console.log("dragging");
   if(!dropZone.classList.contains("dragged"))
   {
 
@@ -16,5 +17,17 @@ dropZone.addEventListener("dragleave" , ()=>{
 })
 dropZone.addEventListener("drop" , (e)=>{
   e.preventDefault();
-  dropZone.classList.remove("dragged")
+  dropZone.classList.remove("dragged");
+  const droppedFiles = e.dataTransfer.files;
+
+  console.log(droppedFiles);
+
+  if(droppedFiles.length){
+    fileInput.files = droppedFiles; 
+  }
+
+})
+
+browseBtn.addEventListener("click", ()=>{
+  fileInput.click();
 })

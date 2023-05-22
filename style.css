@@ -99,9 +99,11 @@ body,
   font-size: large;
 }
 
+/* fix this  */
+
 #browseBtn {
   color: #2196f3;
-  cursor: pointer;
+  cursor:pointer;
 }
 
 /* uploading progress styles */
@@ -279,3 +281,7 @@ body,
     width: 300px;
   }
 }
+/* 
+#fileInput{
+  display: none;
+} */
