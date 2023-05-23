@@ -1,7 +1,7 @@
 const dropZone = document.querySelector(".drop-zone");
 const browseBtn = document.querySelector("#browseBtn");
 const fileInput = document.querySelector("#fileInput");
-const host = "https://innshare.herokuapp.com/";
+const host = "http://localhost:5173/";
 const uploadURL = `${host}api/files`;
 // const uploadURL = `${host}api/files`;
 
@@ -28,9 +28,9 @@ dropZone.addEventListener("drop", (e) => {
   }
 });
 
-fileInput.addEventListener("change" , ()=>{
+fileInput.addEventListener("change", () => {
   uploadFile();
-})
+});
 
 browseBtn.addEventListener("click", () => {
   fileInput.click();
@@ -48,4 +48,10 @@ const uploadFile = () => {
 
   xhr.open("POST", uploadURL);
   xhr.send(formData);
+};
+
+//check this file after backend
+const uploadProgress = () => {
+  const percent = Math.round((e.loaded / e.total) * 100);
+  console.log("percent", percent);
 };
