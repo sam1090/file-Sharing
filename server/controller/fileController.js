@@ -41,11 +41,11 @@ exports.uploadFile = async (req, res) => {
     });
 
     const response = await fileModel.save();
-    console.log(response);
+    // console.log(response);
     return res.json({
       file: `${process.env.APP_BASE_URL}/files/${response.uuid}`,
     });
   });
 
-  //response->link
+  //response->link 
 };
