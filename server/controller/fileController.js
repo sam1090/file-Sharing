@@ -27,7 +27,7 @@ exports.uploadFile = async (req, res) => {
     if (!req.file) {
       return res.json({ error: "All fields are requires!" });
     }
-    // console.log( req.file.filename);
+    console.log( req.file.filename);
 
     if (err) {
       return res.status(500).send({ error: err.message });

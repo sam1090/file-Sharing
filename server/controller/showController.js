@@ -13,7 +13,7 @@
       uuid: file.uuid,
       fileName: file.fileName,
       fileSize : file.size,
-      download: `${process.env.APP_BASE_URL}/files/download/${file.uuid}`
+      downloadLink: `${process.env.APP_BASE_URL}/files/download/${file.uuid}`
     })
   } catch (error) {
     return res.render('download' ,{ error: "Something went wrong"});
