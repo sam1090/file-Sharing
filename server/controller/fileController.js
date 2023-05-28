@@ -2,7 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const File = require('../model/fileModel');
 const { v4: uuid } = require('uuid');
-const {sendMail } = require('../services/emailService');
+const sendMail = require('../services/emailService');
 const emailTemplate = require('../services/emailTemplate');
 
 let storage = multer.diskStorage({
@@ -70,26 +70,25 @@ exports.sendEmail = async (req, res) => {
   // Get data from database
   const file = await File.findOne({ uuid });
 
-  if(file.sender ){
-    return res.send({ error : 'Email already sent '})
+  if (file.sender) {
+    return res.send({ error: 'Email already sent ' });
   }
 
   file.sender = emailFrom;
   file.reciever = emailTo;
   const response = await file.save();
 
-  //send email 
-sendMail({
-  from: emailFrom,
-  to: emailTo,
-  subject : 'Inshare File Sharing ',
-  text : `${emailFrom} shared a file with you ..`,
-  html: emailTemplate({
-    emailFrom,
-    downloadLink:  `${process.env.APP_BASE_URL}/api/files/${uuid}`,
-    size: parseInt(file.size/1000) + ' KB',
-    expires: '24 hours'
-  })
-})
-
+  //send email
+  sendMail({
+    from: emailFrom,
+    to: emailTo,
+    subject: 'Inshare File Sharing ',
+    text: `${emailFrom} shared a file with you ..`,
+    html: emailTemplate({
+      emailFrom,
+      downloadLink: `${process.env.APP_BASE_URL}/api/files/${uuid}`,
+      size: parseInt(file.size / 1000) + ' KB',
+      expires: '24 hours',
+    }),
+  });
 };
