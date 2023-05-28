@@ -2,6 +2,8 @@ const multer = require('multer');
 const path = require('path');
 const File = require('../model/fileModel');
 const { v4: uuid } = require('uuid');
+const {sendMail } = require('../services/emailService');
+const emailTemplate = require('../services/emailTemplate');
 
 let storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, 'uploads/'),
@@ -54,9 +56,40 @@ exports.downloadFile = async (req, res) => {
   if (!file) {
     return res.render('download', { error: ' Link has been expired! ' });
   }
-console.log(`${__dirname}`);
   const filePath = `${__dirname}/../${file.path}`;
-console.log(filePath);
   res.download(filePath);
+};
+
+exports.sendEmail = async (req, res) => {
+  const { uuid, emailTo, emailFrom } = req.body;
+
+  if (!uuid || !emailTo || !emailFrom) {
+    return res.status(422).send({ error: 'All fields are required .' });
+  }
+
+  // Get data from database
+  const file = await File.findOne({ uuid });
+
+  if(file.sender ){
+    return res.send({ error : 'Email already sent '})
+  }
+
+  file.sender = emailFrom;
+  file.reciever = emailTo;
+  const response = await file.save();
+
+  //send email 
+sendMail({
+  from: emailFrom,
+  to: emailTo,
+  subject : 'Inshare File Sharing ',
+  text : `${emailFrom} shared a file with you ..`,
+  html: emailTemplate({
+    emailFrom,
+    downloadLink:  `${process.env.APP_BASE_URL}/api/files/${uuid}`,
+    size: parseInt(file.size/1000) + ' KB',
+    expires: '24 hours'
+  })
+})
 
 };
