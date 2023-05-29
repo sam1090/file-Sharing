@@ -1,7 +1,7 @@
 const dropZone = document.querySelector(".drop-zone");
 const browseBtn = document.querySelector("#browseBtn");
 const fileInput = document.querySelector("#fileInput");
-const host = "http://localhost:5173/";
+const host = "http://localhost:3000/";
 const uploadURL = `${host}api/files`;
 // const uploadURL = `${host}api/files`;
 
