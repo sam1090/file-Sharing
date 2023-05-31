@@ -11,9 +11,9 @@ const cors = require('cors');
 app.use(express.static('public'));
 app.use(express.json());
 
-const corsOptions = { 
-  origin: process.env.ALLOWED_CLIENTS.split(',')
-}
+const corsOptions = {
+  origin: ['http://localhost:3000' , 'http://localhost:5000'],
+};
 
 app.use(cors(corsOptions));
 //Template engine
