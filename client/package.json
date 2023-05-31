@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "http-server": "^14.1.1",
+    "react-scripts": "^5.0.1",
     "vite": "^4.3.8"
   },
   "name": "filesharing",
@@ -9,8 +10,21 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "react-scripts build",
     "start": "vite"
   },
   "author": "Saumya Gupta",
-  "license": "ISC"
+  "license": "ISC",
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
 }

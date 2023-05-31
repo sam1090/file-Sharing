@@ -6,10 +6,16 @@ const path = require('path');
 const showRouter = require('./routes/showRoutes');
 const PORT = process.env.PORT || 3000;
 connectDB();
+const cors = require('cors');
 
 app.use(express.static('public'));
 app.use(express.json());
 
+const corsOptions = { 
+  origin: process.env.ALLOWED_CLIENTS.split(',')
+}
+
+app.use(cors(corsOptions));
 //Template engine
 app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
