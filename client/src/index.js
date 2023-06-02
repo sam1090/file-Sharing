@@ -5,6 +5,9 @@ const bgProgress = document.querySelector('.bg-progress');
 const percentDiv = document.querySelector('#progressPercent');
 const progressBar = document.querySelector('.progress-bar');
 const progressContainer = document.querySelector('.progress-container');
+const sharingContainer = document.querySelector('.sharing-container');
+const fileUrlInput = document.querySelector('#fileURL');
+const copyBtn = document.querySelector('#copyURLBtn');
 const host = 'http://localhost:3000/';
 const uploadURL = `${host}api/files`;
 // const uploadURL = `${host}api/files`;
@@ -40,6 +43,12 @@ browseBtn.addEventListener('click', () => {
   fileInput.click();
 });
 
+copyBtn.addEventListener('click', () => {
+  fileUrlInput.select();
+  document.execCommand('copy');
+});
+
+
 const uploadFile = () => {
   progressContainer.style.display = 'block';
   const file = fileInput.files[0];
@@ -50,7 +59,7 @@ const uploadFile = () => {
 
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) {
-      console.log(xhr.response);
+      // console.log(xhr.response);
       showLink(JSON.parse(xhr.response));
     }
   };
@@ -72,4 +81,6 @@ const updateProgress = (e) => {
 const showLink = ({ file }) => {
   console.log(file);
   progressContainer.style.display = 'none';
+  sharingContainer.style.display = 'block';
+  fileUrlInput.value = file;
 };
