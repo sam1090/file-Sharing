@@ -8,6 +8,7 @@ const progressContainer = document.querySelector('.progress-container');
 const sharingContainer = document.querySelector('.sharing-container');
 const fileUrlInput = document.querySelector('#fileURL');
 const copyBtn = document.querySelector('#copyURLBtn');
+const emailForm = document.querySelector('#emailForm');
 const host = 'http://localhost:3000/';
 const uploadURL = `${host}api/files`;
 // const uploadURL = `${host}api/files`;
@@ -48,7 +49,6 @@ copyBtn.addEventListener('click', () => {
   document.execCommand('copy');
 });
 
-
 const uploadFile = () => {
   progressContainer.style.display = 'block';
   const file = fileInput.files[0];
@@ -84,3 +84,14 @@ const showLink = ({ file }) => {
   sharingContainer.style.display = 'block';
   fileUrlInput.value = file;
 };
+
+emailForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  console.log('Submit Form');
+  const url = (fileUrlInput.value = file);
+  const formData = {
+    uuid: url.split("/").splice(-1,1)[0],
+    emailTo: emailForm.elements["to-email"].value,
+    emailFrom: emailForm.elements["from-email"].value,
+  };
+});
