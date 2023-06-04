@@ -9,8 +9,10 @@ const sharingContainer = document.querySelector('.sharing-container');
 const fileUrlInput = document.querySelector('#fileURL');
 const copyBtn = document.querySelector('#copyURLBtn');
 const emailForm = document.querySelector('#emailForm');
+
 const host = 'http://localhost:3000/';
 const uploadURL = `${host}api/files`;
+const emailURL = `${host}api/files/send`;
 // const uploadURL = `${host}api/files`;
 
 dropZone.addEventListener('dragover', (e) => {
@@ -60,7 +62,7 @@ const uploadFile = () => {
   xhr.onreadystatechange = () => {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       // console.log(xhr.response);
-      showLink(JSON.parse(xhr.response));
+      onuploadSuccess(JSON.parse(xhr.response));
     }
   };
   xhr.upload.onprogress = updateProgress;
@@ -78,8 +80,11 @@ const updateProgress = (e) => {
   progressBar.style.transform = `scaleX(${percent / 100})`;
 };
 
-const showLink = ({ file }) => {
+const onuploadSuccess = ({ file }) => {
   console.log(file);
+  fileInput.value = "";
+  emailForm[2].removeAttribute("diasabled");
+
   progressContainer.style.display = 'none';
   sharingContainer.style.display = 'block';
   fileUrlInput.value = file;
@@ -88,10 +93,26 @@ const showLink = ({ file }) => {
 emailForm.addEventListener('submit', (e) => {
   e.preventDefault();
   console.log('Submit Form');
-  const url = (fileUrlInput.value = file);
+  const url = fileUrlInput.value;
   const formData = {
-    uuid: url.split("/").splice(-1,1)[0],
-    emailTo: emailForm.elements["to-email"].value,
-    emailFrom: emailForm.elements["from-email"].value,
+    uuid: url.split('/').splice(-1, 1)[0],
+    emailTo: emailForm.elements['to-email'].value,
+    emailFrom: emailForm.elements['from-email'].value,
   };
+  emailForm[2].setAttribute("diasabled", "true");
+  console.table(formData);
+
+  fetch(emailURL, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((res) => res.json())
+    .then(({success}) => {
+      if(success){
+        sharingContainer.style.display = "none";
+      }
+    });
 });

@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "cors": "^2.8.5",
     "http-server": "^14.1.1",
     "react-scripts": "^5.0.1",
     "vite": "^4.3.8"
@@ -12,7 +13,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "react-scripts build",
     "start": "react-scripts start",
-    "dev":"vite .public/index.html"
+    "dev": "vite .public/index.html"
   },
   "author": "Saumya Gupta",
   "license": "ISC",
@@ -26,7 +27,6 @@
       ">0.2%",
       "not dead",
       "not op_mini all"
-
     ]
   }
 }
