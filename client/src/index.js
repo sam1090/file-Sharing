@@ -10,6 +10,8 @@ const fileUrlInput = document.querySelector('#fileURL');
 const copyBtn = document.querySelector('#copyURLBtn');
 const emailForm = document.querySelector('#emailForm');
 
+const toast = document.querySelector('.toast');
+
 const host = 'http://localhost:3000/';
 const uploadURL = `${host}api/files`;
 const emailURL = `${host}api/files/send`;
@@ -49,6 +51,7 @@ browseBtn.addEventListener('click', () => {
 copyBtn.addEventListener('click', () => {
   fileUrlInput.select();
   document.execCommand('copy');
+  showToast('Link Copied ');
 });
 
 const uploadFile = () => {
@@ -67,6 +70,12 @@ const uploadFile = () => {
   };
   xhr.upload.onprogress = updateProgress;
 
+  xhr.upload.onerror = () =>{
+    fileInput.value= "";
+
+    showToast(`Error in upload : ${xhr.statusText}`)
+  }
+
   xhr.open('POST', uploadURL);
   xhr.send(formData);
 };
@@ -82,8 +91,8 @@ const updateProgress = (e) => {
 
 const onuploadSuccess = ({ file }) => {
   console.log(file);
-  fileInput.value = "";
-  emailForm[2].removeAttribute("diasabled");
+  fileInput.value = '';
+  emailForm[2].removeAttribute('diasabled');
 
   progressContainer.style.display = 'none';
   sharingContainer.style.display = 'block';
@@ -99,7 +108,7 @@ emailForm.addEventListener('submit', (e) => {
     emailTo: emailForm.elements['to-email'].value,
     emailFrom: emailForm.elements['from-email'].value,
   };
-  emailForm[2].setAttribute("diasabled", "true");
+  emailForm[2].setAttribute('diasabled', 'true');
   console.table(formData);
 
   fetch(emailURL, {
@@ -110,9 +119,22 @@ emailForm.addEventListener('submit', (e) => {
     body: JSON.stringify(formData),
   })
     .then((res) => res.json())
-    .then(({success}) => {
-      if(success){
-        sharingContainer.style.display = "none";
+    .then(({ success }) => {
+      if (success) {
+        sharingContainer.style.display = 'none';
+        showToast('Email Sent');
       }
     });
 });
+
+let toastTimer;
+const showToast = (msg) => {
+  toast.innerText = msg;
+  toast.style.transform = 'translate(-50% ,0)';
+
+  clearTimeout(toastTimer);
+
+  toastTimer = setTimeout(() => {
+    toast.style.transform = 'translate(-50% ,60px)';
+  }, 2000);
+};

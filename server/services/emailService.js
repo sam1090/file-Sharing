@@ -19,7 +19,7 @@ async function sendMail({ from, to, subject, text, html }) {
     text,
     html,
   });
-  res.status(200).send({ sucess: true });
+  // res.status(200).send({ sucess: true });
 }
 
 module.exports = sendMail;
