@@ -1,6 +1,6 @@
 # File Sharing App
 
-This is a file sharing application that allows users to upload files and generate download links for easy sharing.
+This is a file sharing application that allows users to upload files and generate download links for easy sharing.   
 
 ## Features
 
